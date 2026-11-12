@@ -40,7 +40,7 @@ function attachBack(w){
  new w.ResizeObserver(reserve).observe(bar);reserve();
  if(sheet){
   d.querySelector('#back-list')?.remove();
-  const fit=d.createElement('style');fit.textContent='.page.back-bottom{padding-bottom:0!important;height:100dvh!important;min-height:100dvh!important}.sheet-dim{position:fixed!important}.day-sheet{position:fixed!important;top:158.85px!important;bottom:0!important;height:auto!important;margin-top:0!important;max-height:none!important;transform:none!important}.sheet-scroll{overflow-y:auto!important;flex:1 1 auto!important;min-height:0!important}.sheet-scroll>*{flex-shrink:0}';d.head.append(fit);
+  const fit=d.createElement('style');fit.textContent='.page.back-bottom{padding-bottom:0!important;height:100dvh!important;min-height:100dvh!important}.sheet-dim{position:fixed!important}.day-sheet{position:fixed!important;top:auto!important;bottom:0!important;height:auto!important;margin-top:0!important;min-height:0!important;max-height:calc(100dvh - 201.84375px)!important;transform:none!important}.sheet-scroll{overflow-y:auto!important;flex:1 1 auto!important;min-height:0!important}.sheet-scroll>*{flex-shrink:0}';d.head.append(fit);
  }else{
   d.body.classList.remove('scroll-evidence');
   if(d.querySelector('.body-pane'))page.style.setProperty('height','auto','important');
@@ -71,7 +71,25 @@ function applyMockLanguage(d){
  const back=d.getElementById('backbtn');if(back)back.setAttribute('aria-label',selectedLanguage==='en'?'Back to request list':'ย้อนกลับไปรายการคำขอ');
 }
 
-function attachMock(w){const d=w.document,key=w.mockScreen;attachBack(w);applyMockLanguage(d);
+function attachApprovedSheets(w){
+ const d=w.document;
+ if(w.mockScreen==='dept-after')return;
+ const sheet=d.querySelector('.day-sheet');if(!sheet)return;
+ const style=d.createElement('style');style.id='mock-approved-sheets';style.textContent=`
+ html,body{height:100dvh!important;overflow:hidden}
+ .page{height:100dvh!important;min-height:100dvh!important;transform:translateZ(0)}
+ .day-sheet{position:fixed!important;bottom:0!important;top:auto!important;left:0;right:0;height:auto!important;min-height:0!important;max-height:calc(100dvh - 201.84375px)!important;margin-top:0!important;transform:none!important}
+ .sheet-scroll{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important}
+ .day-sheet .official-footer{display:none!important}
+ .sheet-dim{position:fixed!important;inset:0!important;background:rgba(0,30,25,.36)!important}
+ `;d.head.append(style);
+ sheet.querySelector('.official-footer')?.remove();
+ const dim=d.querySelector('.sheet-dim');dim.id='sheet-dim';
+ const fitDim=()=>{dim.style.setProperty('bottom','auto','important');dim.style.setProperty('height',(sheet.getBoundingClientRect().top+20)+'px','important');};
+ new w.ResizeObserver(fitDim).observe(sheet);fitDim();
+}
+
+function attachMock(w){const d=w.document,key=w.mockScreen;attachBack(w);applyMockLanguage(d);attachApprovedSheets(w);
  // The approved calendar uses spans with click handlers for pending dates.
  d.addEventListener('click',e=>{const el=e.target.closest('button,a,#cal2-day-16,#cal2-day-24,#dec-day-8,#sheet-dim');if(!el)return;
  e.preventDefault();e.stopImmediatePropagation();if(el.disabled||el.getAttribute('aria-disabled')==='true')return;
@@ -91,7 +109,7 @@ function attachMock(w){const d=w.document,key=w.mockScreen;attachBack(w);applyMo
  if(id==='cal2-day-16'&&key==='16'){showScreen(decisionResult||'29');return;}
  if(id==='request-row-1'&&['29','17-list'].includes(key)){showScreen('17-detail');return;}
  if(id==='back-list'){goBack();return;}
- if(id==='sheet-close'){closeSheet('16');return;}
+ if(id==='sheet-close'||id==='sheet-dim'){closeSheet('16');return;}
  if(id==='approve'&&key==='17-detail'){decisionResult='31';showScreen('31');return;}
  if(id==='decline'&&key==='17-detail'){decisionResult='32';showScreen('32');return;}
  },true);
