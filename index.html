@@ -38,7 +38,7 @@ function attachBack(w){
  new w.ResizeObserver(reserve).observe(bar);reserve();
  if(sheet){
   d.querySelector('#back-list')?.remove();
-  const fit=d.createElement('style');fit.textContent='.day-sheet{position:fixed!important;bottom:0!important;max-height:85vh!important;max-height:85dvh!important;transform:none!important}.sheet-scroll{overflow-y:auto!important;flex:1 1 auto!important;min-height:0!important}.sheet-scroll>*{flex-shrink:0}';d.head.append(fit);
+  const fit=d.createElement('style');fit.textContent='.page.back-bottom{padding-bottom:0!important;height:100dvh!important;min-height:100dvh!important}.sheet-dim{position:fixed!important}.day-sheet{position:fixed!important;top:158.85px!important;bottom:0!important;height:auto!important;margin-top:0!important;max-height:none!important;transform:none!important}.sheet-scroll{overflow-y:auto!important;flex:1 1 auto!important;min-height:0!important}.sheet-scroll>*{flex-shrink:0}';d.head.append(fit);
  }else{
   d.body.classList.remove('scroll-evidence');
   if(d.querySelector('.body-pane'))page.style.setProperty('height','auto','important');
