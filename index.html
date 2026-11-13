@@ -54,21 +54,44 @@ function renderScreen(key){clearTimeout(timer);if(typeof remember==='function')r
 
 function applyMockLanguage(d){
  const originals=d._mockOriginals||(d._mockOriginals=new WeakMap());
- const dictionary={"ระบบลาแพทย์": "Doctor Leave System", "สำนักแพทย์ โรงพยาบาลพญาไท ศรีราชา": "Medical Affairs, Phyathai Sriracha Hospital", "เข้าสู่ระบบใหม่": "Sign in again", "ผู้อนุมัติ": "Approver", "ผู้อนุมัติ / อายุรกรรม": "Approver / Internal Medicine", "ภาษา": "Language", "ไทย": "Thai", "อังกฤษ": "English", "คำขอรออนุมัติ": "Pending requests", "ภาพรวมแผนก": "Department overview", "ลองอีกครั้ง": "Try again", "พฤศจิกายน 2026": "November 2026", "ธันวาคม 2026": "December 2026", "อา": "Sun", "จ": "Mon", "อ": "Tue", "พ": "Wed", "พฤ": "Thu", "ศ": "Fri", "ส": "Sat", "กลับวันนี้": "Today", "แสดงเฉพาะเดือนที่มีคำขอรออนุมัติ": "Only months with pending requests are shown", "ดูแลระบบโดย สำนักแพทย์ โรงพยาบาลพญาไท ศรีราชา": "Managed by Medical Affairs, Phyathai Sriracha Hospital", "ปิด": "Close", "ย้อนกลับ": "Back", "คำขอลา": "Leave request", "รายละเอียดคำขอลา": "Leave request details", "เลขที่คำขอ": "Request ID", "แผนก": "Department", "ประเภทการลา": "Leave type", "ลาประเภท": "Leave type", "เหตุผล": "Reason", "แพทย์ที่ออกตรวจ": "Doctors on duty", "อนุมัติ": "Approve", "ไม่อนุมัติ": "Decline", "อนุมัติแล้ว": "Approved", "ไม่มีคำขอรออนุมัติ": "No pending requests", "วันที่": "Date", "อายุรกรรม": "Internal Medicine", "ศัลยกรรม": "Surgery", "กุมารเวชกรรม": "Pediatrics", "สูติ-นรีเวชกรรม": "Obstetrics and Gynecology", "ลากิจ": "Personal leave", "ลาป่วย": "Sick leave", "ลาพักร้อน": "Annual leave", "ลาประชุมวิชาการ": "Conference leave", "วันแรก": "First day", "วันสุดท้าย": "Last day", "เงื่อนไขที่ไม่ผ่าน": "Unmet conditions", "ไม่มี": "None", "สถานะ": "Status", "รออนุมัติ": "Pending approval", "ข้อมูลแพทย์": "Doctor information", "คำขอ": "Request", "ชื่อแพทย์": "Doctor name", "ขั้นต่ำ": "Minimum", "ออกตรวจ": "On duty", "ลา": "On leave", "ตามตาราง": "Scheduled"};
+ const attributes=d._mockAttributes||(d._mockAttributes=new WeakMap());
+ const dictionary={"ระบบลาแพทย์": "Doctor Leave System", "สำนักแพทย์ โรงพยาบาลพญาไท ศรีราชา": "Medical Affairs, Phyathai Sriracha Hospital", "เข้าสู่ระบบใหม่": "Sign in again", "ผู้อนุมัติ": "Approver", "ผู้อนุมัติ / อายุรกรรม": "Approver / Internal Medicine", "ภาษา": "Language", "ไทย": "Thai", "อังกฤษ": "English", "คำขอรออนุมัติ": "Pending requests", "ภาพรวมแผนก": "Department overview", "ลองอีกครั้ง": "Try again", "พฤศจิกายน 2026": "November 2026", "ธันวาคม 2026": "December 2026", "อา": "Sun", "จ": "Mon", "อ": "Tue", "พ": "Wed", "พฤ": "Thu", "ศ": "Fri", "ส": "Sat", "กลับวันนี้": "Today", "แสดงเฉพาะเดือนที่มีคำขอรออนุมัติ": "Only months with pending requests are shown", "ดูแลระบบโดย สำนักแพทย์ โรงพยาบาลพญาไท ศรีราชา": "Managed by Medical Affairs, Phyathai Sriracha Hospital", "ปิด": "Close", "ย้อนกลับ": "Back", "คำขอลา": "Leave request", "รายละเอียดคำขอลา": "Leave request details", "เลขที่คำขอ": "Request ID", "แผนก": "Department", "ประเภทการลา": "Leave type", "ลาประเภท": "Leave type", "เหตุผล": "Reason", "แพทย์ที่ออกตรวจ": "Doctors on duty", "อนุมัติ": "Approve", "ไม่อนุมัติ": "Decline", "อนุมัติแล้ว": "Approved", "ไม่มีคำขอรออนุมัติ": "No pending requests", "วันที่": "Date", "อายุรกรรม": "Internal Medicine", "ศัลยกรรม": "Surgery", "กุมารเวชกรรม": "Pediatrics", "สูติ-นรีเวชกรรม": "Obstetrics and Gynecology", "ลากิจ": "Personal leave", "ลาป่วย": "Sick leave", "ลาพักร้อน": "Annual leave", "ลาประชุมวิชาการ": "Conference leave", "วันแรก": "First day", "วันสุดท้าย": "Last day", "เงื่อนไขที่ไม่ผ่าน": "Unmet conditions", "ไม่มี": "None", "สถานะ": "Status", "รออนุมัติ": "Pending approval", "ข้อมูลแพทย์": "Doctor information", "คำขอ": "Request", "ชื่อแพทย์": "Doctor name", "ขั้นต่ำ": "Minimum", "ออกตรวจ": "On duty", "ลา": "On leave", "ตามตาราง": "Scheduled", "เมนูหลัก": "Main menu", "เข้าสู่ระบบด้วย Google": "Sign in with Google", "ดำเนินการต่อ": "Continue", "กรุณาเปิดแอปใหม่เพื่อลงชื่อเข้าใช้": "Please reopen the app to sign in", "กรุณาเปิดแอปอีกครั้งเพื่อเข้าสู่ระบบ": "Please reopen the app to sign in", "ธันวาคม ›": "December ›", "16–22 พฤศจิกายน": "16–22 November", "จำนวนแพทย์ออกตรวจในแต่ละวัน": "Doctors on duty each day", "อายุรฯ": "Medicine", "ศัลยฯ": "Surgery", "กุมารฯ": "Pediatrics", "ขั้นต่ำวันจันทร์–ศุกร์ 2 คนทุกแผนก": "Weekday minimum: 2 per department", "– ไม่มีรอบตรวจ • สีแดงต่ำกว่าขั้นต่ำ": "– No clinic • Red: below minimum", "คำขอรออนุมัติยังไม่นับเป็นผู้ลา": "Pending requests are excluded", "รายละเอียดวันที่เลือก": "Selected day details", "ออกตรวจ / ขั้นต่ำ": "On duty / Minimum", "ไม่ต่ำกว่าขั้นต่ำ": "Minimum met", "แพทย์ที่ออกตรวจในแต่ละวัน": "Doctors on duty each day", "ถ้าอนุมัติ": "If approved", "เหตุผล: ไปงานแต่งงานญาติที่ต่างจังหวัด": "Reason: Family wedding out of town", "ย้อนกลับไปรายการคำขอ": "Back to request list"};
+ const translate=original=>{
+  const t=original.trim();let en=dictionary[t];
+  if(!en&&/^คำขอรออนุมัติ \d+ รายการ$/.test(t))en=t.replace(/คำขอรออนุมัติ (\d+) รายการ/,'Pending requests: $1');
+  if(!en&&/^อนุมัติลา \d+ คน$/.test(t))en=t.replace(/อนุมัติลา (\d+) คน/,'Approved leave: $1');
+  if(!en&&/^ต่ำกว่าขั้นต่ำ \d+ คน$/.test(t))en=t.replace(/ต่ำกว่าขั้นต่ำ (\d+) คน/,'Short by $1');
+  if(!en&&/^แพทย์ในแผนก \d+ คน$/.test(t))en=t.replace(/แพทย์ในแผนก (\d+) คน/,'Department doctors: $1');
+  if(!en&&/^[\d /]+ คน$/.test(t))en=t.replace(' คน',' doctors');
+  if(!en&&/^วันที่ลา: /.test(t))en=t.replace('วันที่ลา: ','Leave dates: ');
+  if(!en&&/^(อายุรกรรม|ศัลยกรรม|กุมารเวชกรรม|สูติ-นรีเวชกรรม) (·|•|วันที่)/.test(t)){
+   en=t.replace(/^(อายุรกรรม|ศัลยกรรม|กุมารเวชกรรม|สูติ-นรีเวชกรรม)/,v=>v==='สูติ-นรีเวชกรรม'?'Ob/Gyn':dictionary[v]).replace('วันที่','day').replace('ไม่ต่ำกว่าขั้นต่ำ','Minimum met').replace('ต่ำกว่าขั้นต่ำ','Below minimum');
+  }
+  if(!en&&(t.includes('พ.ย.')||t.includes('พฤศจิกายน')))en=t;
+  if(en)en=en.replaceAll('พ.ย.','Nov').replaceAll('พฤศจิกายน','November');
+  return selectedLanguage==='en'&&en?original.replace(t,en):original;
+ };
  const walk=d.createTreeWalker(d.body,NodeFilter.SHOW_TEXT);
  while(walk.nextNode()){
   const n=walk.currentNode;if(n.parentElement.closest('script,style'))continue;
-  if(!originals.has(n))originals.set(n,n.nodeValue);
-  const original=originals.get(n),trimmed=original.trim();
-  let translated=dictionary[trimmed];
-  if(!translated&&/^คำขอรออนุมัติ \d+ รายการ$/.test(trimmed))translated=trimmed.replace(/คำขอรออนุมัติ (\d+) รายการ/,'Pending requests: $1');
-  if(!translated&&trimmed.includes('พ.ย.'))translated=trimmed.replaceAll('พ.ย.','Nov');
-  n.nodeValue=selectedLanguage==='en'&&translated?original.replace(trimmed,translated):original;
+  let entry=originals.get(n);
+  if(!entry||n.nodeValue!==entry.rendered)entry={original:n.nodeValue};
+  entry.rendered=selectedLanguage==='en'&&n.parentElement.id==='decision-result'&&entry.original.trim()==='ไม่อนุมัติ'?entry.original.replace('ไม่อนุมัติ','Declined'):translate(entry.original);originals.set(n,entry);if(n.nodeValue!==entry.rendered)n.nodeValue=entry.rendered;
+ }
+ for(const el of d.querySelectorAll('[placeholder],[aria-label],[title],[alt]')){
+  let entries=attributes.get(el);if(!entries){entries={};attributes.set(el,entries);}
+  for(const attr of ['placeholder','aria-label','title','alt']){
+   if(!el.hasAttribute(attr))continue;const value=el.getAttribute(attr);let entry=entries[attr];
+   if(!entry||value!==entry.rendered)entry={original:value};entry.rendered=translate(entry.original);entries[attr]=entry;
+   if(value!==entry.rendered)el.setAttribute(attr,entry.rendered);
+  }
  }
  d.documentElement.lang=selectedLanguage;
  if(!d.getElementById('mock-language-layout')){const style=d.createElement('style');style.id='mock-language-layout';style.textContent='html[lang=en] #navToday,html[lang=en] #navWork{width:auto!important;padding-left:12px;padding-right:12px}';d.head.appendChild(style);}
  for(const select of d.querySelectorAll('#language'))select.value=selectedLanguage;
  const back=d.getElementById('backbtn');if(back)back.setAttribute('aria-label',selectedLanguage==='en'?'Back to request list':'ย้อนกลับไปรายการคำขอ');
+ if(!d._mockLanguageObserver){d._mockLanguageObserver=new d.defaultView.MutationObserver(()=>applyMockLanguage(d));d._mockLanguageObserver.observe(d.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title','alt']});}
+ d._mockLanguageObserver.takeRecords();
 }
 
 function attachApprovedSheets(w){
